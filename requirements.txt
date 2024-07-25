@@ -1,0 +1,9 @@
+sys
+moviepy
+pillow
+openai
+elevenlabs
+opencv-python
+pydub
+numpy
+#-e .
