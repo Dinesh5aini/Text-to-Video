@@ -6,4 +6,4 @@ elevenlabs
 opencv-python
 pydub
 numpy
-#-e .
+-e .
