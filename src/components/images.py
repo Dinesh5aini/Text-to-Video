@@ -1,9 +1,10 @@
-import base64
 import os
 import openai
 from dotenv import load_dotenv
 from exception import customException
+from logger import logging
 import sys
+import requests
 
 class imageGenerator:
     def __init__(self):
@@ -22,24 +23,29 @@ class imageGenerator:
                     continue
                 image_number += 1
                 image_name = f"image_{image_number}.webp"
-                self.generate(element["description"] + ". Vertical image, fully filling the canvas.", os.path.join(output_dir, image_name))
+                self.generate(prompt=element["description"] + ". Vertical image, fully filling the canvas.", output_file=os.path.join(output_dir, image_name))
+                logging.info(f"Image file saved: {image_name}")
         except Exception as e:
+            logging.error("Error in imageGenerator.create_from_data", exc_info=True)
             raise customException(e, sys)
         
     @staticmethod
-    def generate(self, prompt, output_file, size="1024x1792"):
+    def generate(prompt, output_file, size="1024x1792"):
         try:
-            response = openai.Image.create(
+            response = openai.images.generate(
                 model="dall-e-3",
                 prompt=prompt,
                 size=size,
                 n=1
             )
     
-            image_b64 = response['data'][0]['b64_json']
+            image_url = response.data[0].url if response.data else None
     
-            with open(output_file, "wb") as f:
-                f.write(base64.b64decode(image_b64))
-    
+            img_data = requests.get(image_url).content
+            with open(output_file, 'wb') as handler:
+                handler.write(img_data)
+            logging.info(f"Generated image from prompt: {prompt}")
+
         except Exception as e:
-            print(f"An error occurred while generating the image: {e}")
+            logging.error("Error in imageGenerator.generate", exc_info=True)
+            raise customException(e, sys)
