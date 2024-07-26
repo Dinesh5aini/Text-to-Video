@@ -1,37 +1,33 @@
 import os
-import sys
 from audio import audioGenerator
 from images import imageGenerator
 from video import videoGenerator
-from exception import customException
-
-
 from openai import OpenAI
-import time
-import json
-import video
+from logger import logging
 
 client = OpenAI()
 
-with open(r'../../artifacts/input/source_material.txt','r') as f:
+with open(r'artifacts\input\source_material.txt','r') as f:
     source_material = f.read()
 
-output_file = "output.mp4"
+output_file = r"artifacts\output\video\output.mp4"
 
-basedir = r'../../artifacts/output'
+basedir = r'artifacts\output'
 if not os.path.exists(basedir):
     os.makedirs(basedir)
 
 print("Generating script...")
 
+logging.info("Generating script...")
+
 response = client.chat.completions.create(
-    model="gpt-4",
+    model="gpt-4o-mini",
     messages=[
         {
             "role": "system",
             "content": """You are a YouTube short narration generator. You generate 30 seconds to 1 minute of narration. The shorts you create have a background that fades from image to image as the narration is going on.
 
-You will need to generate descriptions of images for each of the sentences in about 2 lines. They will be passed to an AI image generator. DO NOT IN ANY CIRCUMSTANCES use names of celebrities or people in the image descriptions. It is illegal to generate images of celebrities. Only describe persons without their names. Do not reference any real person or group in the image descriptions. Don't mention the female figure or other sexual content in the images because they are not allowed.
+You will need to generate descriptions of images for each of the sentences in about 2-3 lines. They will be passed to an AI image generator. DO NOT IN ANY CIRCUMSTANCES use names of celebrities or people in the image descriptions. It is illegal to generate images of celebrities. Only describe persons without their names. Do not reference any real person or group in the image descriptions. Don't mention the female figure or other sexual content in the images because they are not allowed.
 
 You are however allowed to use any content, including real names in the narration. Only image descriptions are restricted.
 
@@ -70,23 +66,28 @@ You should add a description of a fitting backround image in between all of the 
 response_text = response.choices[0].message.content
 response_text.replace("’", "'").replace("`", "'").replace("…", "...").replace("“", '"').replace("”", '"')
 
-with open(os.path.join(basedir,"temp", "response.txt"), "w") as f:
-    f.write(response_text)
+logging.info("Parsing script into Data and Narrations...")
 
 narration = audioGenerator()
 data, narrations = narration.parse(response_text)
-with open(os.path.join(basedir,"temp", "data.json"), "w") as f:
-    json.dump(data, f, ensure_ascii=False)
+
+logging.info("Generating audio...")
 
 print(f"Generating audio...")
 narration.create(data, os.path.join(basedir, "audio"))
+
+logging.info("Generating images...")
 
 image = imageGenerator()
 print("Generating images...")
 image.create_from_data(data, os.path.join(basedir, "images"))
 
+logging.info("Generating video...")
+
 videos = videoGenerator()
 print("Generating video...")
 videos.create(os.path.join(basedir,"images"),os.path.join(basedir,"audio"), output_file)
+
+logging.info("Generating Text to Video successful...")
 
 print(f"DONE! Here's your video: {os.path.join(basedir, output_file)}")
