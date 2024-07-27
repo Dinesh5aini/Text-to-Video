@@ -4,15 +4,18 @@ from images import imageGenerator
 from video import videoGenerator
 from openai import OpenAI
 from logger import logging
+import time
 
 client = OpenAI()
 
 with open(r'artifacts\input\source_material.txt','r') as f:
     source_material = f.read()
 
-output_file = r"artifacts\output\video\output.mp4"
-
 basedir = r'artifacts\output'
+
+timestamp = time.strftime("[%Y/%m/%d-%H:%M:%S]") 
+output_file = os.path.join(basedir,"video",f"output{timestamp}.mp4")
+
 if not os.path.exists(basedir):
     os.makedirs(basedir)
 
@@ -25,7 +28,7 @@ response = client.chat.completions.create(
     messages=[
         {
             "role": "system",
-            "content": """You are a YouTube short narration generator. You generate 30 seconds to 1 minute of narration. The shorts you create have a background that fades from image to image as the narration is going on.
+            "content": """You are a short video narration generator. You generate 30 seconds to 1 minute of narration. The shorts you create have a background that fades from image to image as the narration is going on.
 
 You will need to generate descriptions of images for each of the sentences in about 2-3 lines. They will be passed to an AI image generator. DO NOT IN ANY CIRCUMSTANCES use names of celebrities or people in the image descriptions. It is illegal to generate images of celebrities. Only describe persons without their names. Do not reference any real person or group in the image descriptions. Don't mention the female figure or other sexual content in the images because they are not allowed.
 
@@ -58,7 +61,7 @@ You should add a description of a fitting backround image in between all of the 
         },
         {
             "role": "user",
-            "content": f"Create a YouTube short narration based on the following source material:\n\n{source_material}"
+            "content": f"Create a short video narration based on the following source material:\n\n{source_material}"
         }
     ]
 )
