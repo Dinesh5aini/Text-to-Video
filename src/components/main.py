@@ -13,8 +13,8 @@ with open(r'artifacts\input\source_material.txt','r') as f:
 
 basedir = r'artifacts\output'
 
-timestamp = time.strftime("[%Y/%m/%d-%H:%M:%S]") 
-output_file = os.path.join(basedir,"video",f"output{timestamp}.mp4")
+timestamp = str(int(time.time()))
+output_file = os.path.join(basedir,f"output{timestamp}.mp4")
 
 if not os.path.exists(basedir):
     os.makedirs(basedir)
@@ -92,5 +92,11 @@ print("Generating video...")
 videos.create(os.path.join(basedir,"images"),os.path.join(basedir,"audio"), output_file)
 
 logging.info("Generating Text to Video successful...")
+
+if os.path.exists(os.path.join(basedir,"images")):
+    os.rmdir(os.path.join(basedir,"images"))
+
+if os.path.exists(os.path.join(basedir,"audio")):
+    os.rmdir(os.path.join(basedir,"audio"))
 
 print(f"DONE! Here's your video: {os.path.join(basedir, output_file)}")
