@@ -20,7 +20,7 @@ class audioGenerator:
 
     #     self.elevenlabs = ElevenLabs(api_key=os.getenv("ELEVENLABS_API_KEY"))
 
-    def create(self, data, output_folder,increased_volume=15):
+    def create(self, data, output_folder,increased_volume=20):
         try:
             if not os.path.exists(output_folder):
                 os.makedirs(output_folder)
@@ -37,11 +37,11 @@ class audioGenerator:
                     model="tts-1",
                     voice="onyx",
                     input=element["content"],
-                    speed=1.25
+                    speed=1.2
                 )
                 response.write_to_file(tmp_file)
 
-                audio = AudioSegment.from_file(output_file, format="mp3")
+                audio = AudioSegment.from_file(tmp_file, format="mp3")
                 louder_audio = audio + increased_volume
                 louder_audio.export(output_file, format="mp3")
 

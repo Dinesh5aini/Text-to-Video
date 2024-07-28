@@ -5,10 +5,11 @@ from video import videoGenerator
 from openai import OpenAI
 from logger import logging
 import time
+import shutil
 
 client = OpenAI()
 
-with open(r'artifacts\input\source_material.txt','r') as f:
+with open(r'artifacts\input\source_material.txt','r', encoding='utf-8') as f:
     source_material = f.read()
 
 basedir = r'artifacts\output'
@@ -93,10 +94,11 @@ videos.create(os.path.join(basedir,"images"),os.path.join(basedir,"audio"), outp
 
 logging.info("Generating Text to Video successful...")
 
-if os.path.exists(os.path.join(basedir,"images")):
-    os.rmdir(os.path.join(basedir,"images"))
+# remove audio and images directory
+if os.path.exists(os.path.join(basedir, "images")):
+    shutil.rmtree(os.path.join(basedir, "images"))
 
-if os.path.exists(os.path.join(basedir,"audio")):
-    os.rmdir(os.path.join(basedir,"audio"))
+if os.path.exists(os.path.join(basedir, "audio")):
+    shutil.rmtree(os.path.join(basedir, "audio"))
 
 print(f"DONE! Here's your video: {os.path.join(basedir, output_file)}")
