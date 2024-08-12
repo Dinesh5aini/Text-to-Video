@@ -54,9 +54,9 @@ class videoGenerator:
 
                 clips.append(image_clip)
             
-            clips = concatenate_videoclips(clips).set_audio(audio_clip) #concatenate all the video frames in sequence
-
             audio_clip = concatenate_audioclips([AudioFileClip(audio) for audio in audios]) # combine all audio clips into a single audio clip
+
+            clips = concatenate_videoclips(clips).set_audio(audio_clip) #concatenate all the video frames in sequence
 
             tmp_audio = tempfile.NamedTemporaryFile(suffix=".mp3", delete=False).name
 
