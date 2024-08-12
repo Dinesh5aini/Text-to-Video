@@ -2,9 +2,10 @@ moviepy
 pillow
 openai
 elevenlabs
-opencv-python
-pydub
 numpy
 gTTS
 python-dotenv
+openai-whisper
+replicate
+pyttsx3
 -e .
