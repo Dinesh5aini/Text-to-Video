@@ -45,7 +45,7 @@ class imageGenerator:
         
     def generate_with_openai(self, prompt, output_file, size="1024x1792"):
         try:
-            response = openai.Image.create(
+            response = openai.images.generate(
                 model="dall-e-3",
                 prompt=prompt,
                 size=size,
@@ -53,7 +53,7 @@ class imageGenerator:
                 response_format="b64_json"
             )
             
-            image_data = response['data'][0]['b64_json']
+            image_data = response.data[0].b64_json
             
             with open(output_file, 'wb') as handler:
                 handler.write(base64.b64decode(image_data))

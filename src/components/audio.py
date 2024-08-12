@@ -4,12 +4,15 @@ import pyttsx3
 from gtts import gTTS
 from exception import customException
 from logger import logging
+from dotenv import load_dotenv
 import openai
-import elevenlabs
+from elevenlabs.client import ElevenLabs
+from elevenlabs import save
 
 class audioGenerator:
     def __init__(self, model="pyttsx3"):
         self.model = model
+        load_dotenv()
 
         if self.model == "pyttsx3":
             self.engine = pyttsx3.init()
@@ -18,7 +21,7 @@ class audioGenerator:
         elif self.model == "openai":
             openai.api_key = os.getenv("OPENAI_API_KEY")
         elif self.model == "elevenlabs":
-            self.elevenlabs = elevenlabs
+            self.elevenlabs = ElevenLabs(api_key=os.getenv("ELEVENLABS_API_KEY"))
         elif self.model != "gTTS":
             raise ValueError(f"Unsupported model: {self.model}")
 
@@ -58,7 +61,7 @@ class audioGenerator:
                         voice="Josh",
                         model="eleven_multilingual_v2"
                     )
-                    elevenlabs.save(audio, output_file)
+                    save(audio, output_file)
 
                 logging.info(f"Audio file saved: {output_file}")
 

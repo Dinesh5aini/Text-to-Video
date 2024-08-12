@@ -60,7 +60,7 @@ class videoGenerator:
 
             tmp_audio = tempfile.NamedTemporaryFile(suffix=".mp3", delete=False).name
 
-            audio_clip.write_audiofile(tmp_audio, codec='libmp3lame')
+            audio_clip.write_audiofile(tmp_audio, codec='libmp3lame',verbose=False, logger=None) # write the audio to a temporary file
 
             logging.info("Generating captions...")
             
@@ -82,7 +82,7 @@ class videoGenerator:
             final_clip = CompositeVideoClip([clips]+clps).set_duration(audio_clip.duration) 
 
             # Write the final video file
-            final_clip.write_videofile(output_file, codec='libx264', fps=frame_rate)
+            final_clip.write_videofile(output_file, codec='libx264', fps=frame_rate, verbose=False)
             
             logging.info(f"Video file saved: {output_file}")
 
