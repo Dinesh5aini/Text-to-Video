@@ -82,17 +82,20 @@ TextToVideo/
 ├── artifacts/
 │   ├── input/
 │   │   └── source_material.txt       # Place your input text file here
-│   ├── output/                       # Generated video and intermediate files will be stored here
-│   └── temp/                         # Temporary files used during video generation
+│   └── output/                       # Generated video and intermediate files will be stored here
+│   
 ├── src/
-│   ├── components/
-│   │   ├── main.py                   # Main script to run the video generation process
-│   │   ├── text_generator.py         # Module to generate text narration using GPT-4
-│   │   ├── image_generator.py        # Module to generate images based on text descriptions
-│   │   ├── video_creator.py          # Module to create video from images and narration
-│   └── utils/
-│       ├── helpers.py                # Helper functions for various tasks
-│       └── config.py                 # Configuration settings and environment management
+│   └── components/
+│       ├── main.py                   # Main script to run the video generation process
+│       ├── audio.py                  # Module to generate audio from text
+│       ├── images.py                 # Module to generate images based on text descriptions
+│       ├── video.py                  # Script for managing video processing
+│       ├── caption.py                # Module for handling captions within the video
+│       ├── exception.py              # Module for managing exceptions
+│       └── logger.py                 # Module for logging processes and errors
+│   
 ├── .env                              # Environment variables, such as API keys
 ├── requirements.txt                  # Python dependencies
+├── setup.py                          # Script for setting up the package
+├── .gitignore                        # Git ignore file to exclude certain files and directories
 └── README.md                         # Project documentation
