@@ -1,6 +1,6 @@
 # TextToVideo
 
-TextToVideo is a Python project that generates short video narrations with AI-generated images based on provided source material. The project uses OpenAI's GPT-4 model to create narrations and descriptions for images, which are then used to generate a video.
+TextToVideo is an innovative tool designed for effortlessly creating AI-driven short videos. Leveraging the power of GPT-4, it crafts dynamic scripts that are brought to life through your choice of text-to-speech engines, including pyttsx3, ElevenLabs, gTTS or OpenAI TTS. The visual elements are enhanced with AI-generated backgrounds, utilizing DALL-E 3 or Flux-pro, tailored to your needs. To make the content even more engaging, captions with highlighted words are automatically generated using OpenAI Whisper, ensuring your videos captivate and inform.
 
 ## Table of Contents
 
