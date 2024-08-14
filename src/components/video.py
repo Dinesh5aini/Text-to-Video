@@ -11,7 +11,7 @@ import tempfile
 class videoGenerator:
 
     @staticmethod
-    def create(images_dir, audio_dir, output_file, font,color = "white", word_highlight_color = "yellow", line_count = 2, font_size = 130,stroke_width = 2,stroke_color = "black", resolution = (1080, 1920)):
+    def create(images_dir, audio_dir, output_file, font,color = "white", word_highlight_color = "yellow", line_count = 2, font_size = 90 ,stroke_width = 2,stroke_color = "black", resolution = (1080, 1920), shadow_blur_radius = 10, opacity = 1.0, bg_blur =False):
         try:
             frame_rate = 30
             transition_duration = 1  
@@ -75,11 +75,19 @@ class videoGenerator:
                 font= font, 
                 stroke_width=stroke_width, 
                 resolution=resolution,
-                line_count=line_count
+                line_count=line_count,
+                shadow_blur_radius=shadow_blur_radius,
+                opacity=opacity,
+                bg_blur=bg_blur
                 )
 
             # overlaping the caption frames over the video clip 
             final_clip = CompositeVideoClip([clips]+clps).set_duration(audio_clip.duration) 
+
+            # fr = final_clip.get_frame(1) # get the first frame of the final clip
+            # fr = Image.fromarray(fr) # convert the frame to an image
+            # fr.save('test.png') # save the first frame as the output file
+            # quit()
 
             # Write the final video file
             final_clip.write_videofile(output_file, codec='libx264', fps=frame_rate, verbose=False)
