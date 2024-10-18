@@ -14,7 +14,6 @@ setup(
     name='TextToVideo',
     version='0.0.1',
     author='Dinesh',
-    author_email='dineshsai7728@gmail.com',
     packages=find_packages(),
     install_requires=get_requirements('requirements.txt')
 )

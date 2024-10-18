@@ -15,18 +15,18 @@ class CaptionGenerator:
         try:
             max_line_width = resolution[0] - 100
 
-            # logging.info("Generating audio transcriptions...")
-            # # Generating audio transcriptions
-            # segments = cls.transcribe_audio(audio_file)
+            logging.info("Generating audio transcriptions...")
+            # Generating audio transcriptions
+            segments = cls.transcribe_audio(audio_file)
 
-            # logging.info("Parsing audio transcriptions...")
-            # captions = cls.parse(segments, cls.fits_frame(line_count, font, font_size, stroke_width, max_line_width))
+            logging.info("Parsing audio transcriptions...")
+            captions = cls.parse(segments, cls.fits_frame(line_count, font, font_size, stroke_width, max_line_width))
 
             # with open('caption.json', 'w') as f:
             #     json.dump(captions, f, indent=4)
 
-            with open('caption.json') as f:
-                captions = json.load(f)
+            # with open('caption.json') as f:
+            #     captions = json.load(f)
 
             word_clps = []
             shadow_clps = []
